@@ -1,0 +1,60 @@
+In this folder you can find the algorithms used to generate the intermediate images
+located in /intermediate_images/ folder. Each pixel on the images is a texture
+descriptor computed over 9x9 sliding window on the gray scale image. Raw data is in 
+the .mat files
+
+Further info about the algorithms can be found in the .m files or the paper
+"Reviewing, selecting and evaluating features in distinguishing fine changes of global
+texture" also located in this folders.
+
+This test was performed only over 3 different images: 
+ImageName = 'cimi__153_1', 'cimi__157_1', or 'cimi_S644_1'
+
+Image naming: 
+
+ImageName_TextureFeaturei
+
+TextureFeature is one of the following options:
+
+1.  AR2D: Autoregressive Models. Each image represents one of the 8 parameters of the
+    AR model. i = 1,...,8
+2.  AutoCorr2D: Compute parametric features from the autocorrelation function.
+    a1*x^2+a2*y^2+a3*xy+a4*x+a5*y+a6: i = 1,...,6. Each image represents one of the 
+    parameters of the quadratic model.
+3.  CoMatrix: Coocurrence Matrix. Each image is one of the following descriptors: Energy, 
+    Contrast, Correlation, variance, Homogeneity, Entropy, info1, info2. i = 1,...,8
+4.  DWTenergy: mean and standard deviation of the absolute value of wavelet subbands
+    using 'haar' wavelet for one scale transformation. i = 1,...,8
+5.  GMRF: Gaussian Markov Random Field: Each image represents one of the 7 parameters
+    of the GMRF model. i = 1,...,7
+6.  LaplacianPyramid: each image is mean and standard deviation of the absolute value
+    of Laplacian bands for one scale transformation. i = 1,...,2
+7.  GaborFeatures: Each image is a filtered version of the original image by using
+    one of 24 Gabor filters. i = 1,...,24
+8.  LawsOperators: Each image is one of the descriptors proposed by Laws. i = 1,...,10
+9.  PowerSpectrum: Each image is one a ring or wedge filter in frequency domain
+    by i = 1,...,10
+10. WignerDistribution: Each image is a band of the pseudo Wigner distribution 
+    i = 1,...,9
+11. LBP: Circular Local Binary Pattern i = 1
+12. PSY_entropy_map: Saliency map proposed in "A Full Reference Video Quality Measure 
+    based on Motion Differences and Saliency Maps Evaluation"
+13. Itti-Koch-Niebur_map: Saliency map proposed by Itti (Code from the web)
+14. GBVS_map: Graph-Based Visual Saliency map proposed by Harel (Code from the web)
+
+NOTE: 12, 13 and 14 are saliency maps computed by using state-of-the-art algorithms.
+
+I suggest not to use 11, 12, 13. They are saliency maps based on: "Texture
+areas with high contrast are more salient". I do not know if that is true in this case.
+
+After having each image, a kmeans algorithm was run (k=2,...,6) for each independent set
+of features. The results for all test features and images are located in the /clustering/ 
+folder. Colors do not have any meaning (just to differentiate between "texture types").
+
+I put Coocurrence matrix and Gabor Features In the folder /suggested/ which seems to 
+classify better between "texture types" (visual inspection). Also, you can find the 
+clustering results for those features there.
+
+To compute saliency maps from those texture features and/or clusters, first it is neccessary
+to identify which regions are salient (kind of ground truth) and then it is possible
+to give a kind of weight to each cluster depending of the "ground truth".
