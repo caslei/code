@@ -134,7 +134,18 @@ function slider2_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
+row = 1; 
+col = 2;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
 function slider2_CreateFcn(hObject, eventdata, handles)
@@ -156,6 +167,18 @@ function slider3_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 1; 
+col = 3;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -178,6 +201,18 @@ function slider4_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 2; 
+col = 3;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -200,6 +235,18 @@ function slider5_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 2; 
+col = 2;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -222,6 +269,18 @@ function slider6_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 2; 
+col = 3;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -244,6 +303,18 @@ function slider7_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 3; 
+col = 1;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -266,6 +337,18 @@ function slider8_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 3; 
+col = 2;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -288,6 +371,18 @@ function slider9_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 3; 
+col = 3;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -310,6 +405,18 @@ function slider10_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 4; 
+col = 1;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -332,6 +439,18 @@ function slider11_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 4; 
+col = 2;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -354,6 +473,18 @@ function slider12_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 4; 
+col = 3;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -376,6 +507,18 @@ function slider13_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 5; 
+col = 1;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -398,6 +541,18 @@ function slider14_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 5; 
+col = 2;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -420,6 +575,18 @@ function slider15_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+row = 5; 
+col = 3;
+params = handles.params;
+param = get(hObject,'Value');
+param_prev = params(row,col);
+params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(row,col) = param;
+handles.params = params;
+update_sliders(handles);
+handles.class_pms = update_class_pms();
+update_images(handles);
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
