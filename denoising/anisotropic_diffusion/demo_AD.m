@@ -1,7 +1,7 @@
 clear all;
 
 %% Parameters
-im_name = 'barbara.tif'; 
+im_name = '//ipi/research/jbroels/images/512x512/lena.tif'; 
 
 raw_denoising = 0;
 if strcmp(im_name, 'em1.tif') || strcmp(im_name, 'em2.tif') || strcmp(im_name, 'em3.tif')

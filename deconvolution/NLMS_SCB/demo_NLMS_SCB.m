@@ -2,7 +2,7 @@ clear all;
 close all;
 
 %% image
-im_name = 'D:\Data\joris\images\512x512\lena.tif'; 
+im_name = '//ipi/research/jbroels/images/512x512/lena.tif'; 
 raw_denoising = 0; % set to 0 if groundtruth image is available
                    % for raw EM images, this should be 1
 
@@ -15,7 +15,7 @@ wnd_size = 5; % window size to compare pixel regions (size [2wnd_size+1]x[2wnd_s
               % significantly influences computation time
 % gradient descent params -- these params can be tuned according to the
 % application
-num_iter = 10; % number of iterations: more iterations will give better results
+num_iter = 20; % number of iterations: more iterations will give better results
 
 %% blur params
 f_size = 7; % size of the (gaussian) blur kernel

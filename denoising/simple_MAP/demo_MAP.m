@@ -1,7 +1,7 @@
 clear all;
 
 %% Parameters
-im_name = 'barbara.tif'; 
+im_name = '//ipi/research/jbroels/images/512x512/lena.tif'; 
 
 raw_denoising = 0;
 if strcmp(im_name, 'em1.tif') || strcmp(im_name, 'em2.tif') || strcmp(im_name, 'em3.tif')
@@ -23,7 +23,7 @@ sigma_0 = sigma^2;
 %% MAP parameters
 filter_size = 7;
 filter_sigma = 5;
-lambda = 5;
+lambda = 10;
 %%
 
 %% Laad beeld

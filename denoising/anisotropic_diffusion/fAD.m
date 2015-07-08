@@ -84,14 +84,14 @@ hNW = [1 0 0; 0 -1 0; 0 0 0];
 for t = 1:num_iter
 
         % Finite differences. [imfilter(.,.,'conv') can be replaced by conv2(.,.,'same')]
-        nablaN = imfilter(diff_im,hN,'conv');
-        nablaS = imfilter(diff_im,hS,'conv');   
-        nablaW = imfilter(diff_im,hW,'conv');
-        nablaE = imfilter(diff_im,hE,'conv');   
-        nablaNE = imfilter(diff_im,hNE,'conv');
-        nablaSE = imfilter(diff_im,hSE,'conv');   
-        nablaSW = imfilter(diff_im,hSW,'conv');
-        nablaNW = imfilter(diff_im,hNW,'conv'); 
+        nablaN = imfilter(sig_est,hN,'conv');
+        nablaS = imfilter(sig_est,hS,'conv');   
+        nablaW = imfilter(sig_est,hW,'conv');
+        nablaE = imfilter(sig_est,hE,'conv');   
+        nablaNE = imfilter(sig_est,hNE,'conv');
+        nablaSE = imfilter(sig_est,hSE,'conv');   
+        nablaSW = imfilter(sig_est,hSW,'conv');
+        nablaNW = imfilter(sig_est,hNW,'conv'); 
         
         % Diffusion function.
         if option == 1

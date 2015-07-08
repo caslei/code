@@ -1,7 +1,7 @@
 clear all;
 
 %% Parameters
-im_name = 'C:\Users\Joris\Documents\PhD_temp\matlab\data\images\256x256\gray\house_g.tif'; 
+im_name = '//ipi/research/jbroels/images/512x512/lena.tif'; 
 
 raw_denoising = 0;
 if strcmp(im_name, 'em1.tif') || strcmp(im_name, 'em2.tif') || strcmp(im_name, 'em3.tif')
@@ -55,9 +55,9 @@ if raw_denoising
     subplot(121),imshow(sig,[]),title(sprintf('Gedegregadeerd beeld'));
     subplot(122),imshow(sig_est,[]),title(sprintf('Gereconstrueerd beeld'));
 else
-    subplot(131),imshow(sig_orig(2:end,2:end),[]);
-    subplot(132),imshow(sig(2:end,2:end),[]),title(sprintf('Gedegregadeerd beeld PSNR=%f dB', PSNR(sig(2:end,2:end),sig_orig(2:end,2:end))));
-    subplot(133),imshow(sig_est(2:end,2:end),[]),title(sprintf('Gereconstrueerd beeld PSNR=%f dB', PSNR(sig_est(2:end,2:end),sig_orig(2:end,2:end))));
+    subplot(131),imshow(sig_orig(2:end,2:end),[0,255]);
+    subplot(132),imshow(sig(2:end,2:end),[0,255]),title(sprintf('Gedegregadeerd beeld PSNR=%f dB', PSNR(sig(2:end,2:end),sig_orig(2:end,2:end))));
+    subplot(133),imshow(sig_est(2:end,2:end),[0,255]),title(sprintf('Gereconstrueerd beeld PSNR=%f dB', PSNR(sig_est(2:end,2:end),sig_orig(2:end,2:end))));
     % subplot(131),imshow(sig_orig(2:end,2:end),[]);
     % subplot(132),imshow(sig(2:end,2:end),[]),title(sprintf('Gedegregadeerd beeld PSNR=%f dB', PSNR(sig(2:end,2:end),sig_orig(2:end,2:end))));
     % subplot(133),imshow(sig_est(2:end,2:end),[]),title(sprintf('Gereconstrueerd beeld PSNR=%f dB', PSNR(sig_est(2:end,2:end),sig_orig(2:end,2:end))));

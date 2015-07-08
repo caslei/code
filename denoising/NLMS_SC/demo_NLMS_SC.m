@@ -2,7 +2,7 @@ close all;
 clear all;
 
 %% image
-im_name = 'D:\Data\joris\images\512x512\lena.tif'; 
+im_name = '//ipi/research/jbroels/images/512x512/lena.tif'; 
 raw_denoising = 0; % set to 0 if groundtruth image is available
                    % for raw EM images, this should be 1
 

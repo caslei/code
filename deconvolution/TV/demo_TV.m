@@ -2,7 +2,7 @@
 clear all;
 close all;
 
-img = double(imread('//ipi/research/jbroels/matlab/images/512x512/gray/lena.tif'));
+img = double(imread('//ipi/research/jbroels/images/512x512/lena.tif'));
 
 % blur params
 f_size = 7;
