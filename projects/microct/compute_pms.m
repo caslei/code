@@ -7,11 +7,14 @@ n_classes = size(ksd_xs,2);
 
 pms = zeros(size(img_features,1),size(img_features,2),n_features,n_classes);
 
+h = waitbar(0,'computing probability maps ...');
 for nf = 1:n_features
     for nc = 1:n_classes
         pms(:,:,nf,nc) = compute_pm(img_features(:,:,nf),ksd_xs{nf,nc},ksd_fs{nf,nc});
+        waitbar(((nf-1)*nc+nc)/(n_features*n_classes));
     end
 end
+close(h);
 
 end
 

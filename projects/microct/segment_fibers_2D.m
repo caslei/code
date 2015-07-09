@@ -10,7 +10,7 @@ n_classes = size(selections,3);
 
 % estimate kernel smoothing functions: XY_ksd_f expresses the probability
 % that feature outcome X of a pixel corresponds to pixel class Y
-disp('computing kernel smoothing functions ...');
+% disp('computing kernel smoothing functions ...');
 [ksd_fs, ksd_xs] = estimate_ksds(img_features, selections);
 
 % figure;
@@ -22,7 +22,7 @@ disp('computing kernel smoothing functions ...');
 % end
 
 % extract features
-disp('extracting features ...');
+% disp('extracting features ...');
 imgt_features = zeros(size(img,1),size(img,2),n_features);
 imgt_features(:,:,1) = imfilter(img,filter_l);        % lowpass filter
 imgt_features(:,:,2) = imfilter(img,filter_h);        % horizontal high-pass filter
@@ -31,7 +31,7 @@ imgt_features(:,:,4) = stdfilt(imgt_features(:,:,2)); % local standard deviation
 imgt_features(:,:,5) = stdfilt(imgt_features(:,:,3)); % local standard deviation of vertical high-pass filter
 
 % compute probability maps
-disp('computing probability maps ...');
+% disp('computing probability maps ...');
 pms = compute_pms(imgt_features, ksd_xs, ksd_fs);
 
 % figure;
@@ -43,11 +43,16 @@ pms = compute_pms(imgt_features, ksd_xs, ksd_fs);
 % end
 
 % combine probability maps to class probability maps
-disp('combining probability maps to class probability maps ...');
-params = zeros(n_features,n_classes);
-params(:,1) = [1.00 0.05 0.05 0.25 0.25];
-params(:,2) = [0.50 0.00 0.35 0.00 0.35];
-params(:,3) = [0.50 0.35 0.00 0.35 0.00];
+% disp('combining probability maps to class probability maps ...');
+init_params = ones(n_features,n_classes)/n_features;
+init_params(:,1) = [0.88 0.01 0.01 0.05 0.05];
+init_params(:,2) = [0.40 0.00 0.30 0.00 0.30];
+init_params(:,3) = [0.40 0.30 0.00 0.30 0.00];
+f = select_optimal_params(init_params,pms);
+waitfor(f);
+load temp.mat;
+params = good_params;
+clear good_params;
 
 class_pms = zeros(size(pms,1),size(pms,2),n_classes);
 for nc=1:n_classes
@@ -61,7 +66,7 @@ end
 % figure, imshow(class_pms(:,:,3),[]);
 
 % extract segmentation from class probability maps
-disp('extracting segmentation from class probability maps ...');
+% disp('extracting segmentation from class probability maps ...');
 [~,I_S] = max(class_pms,[],3);
 L = I_S==1;
 H = I_S==2;
@@ -74,7 +79,7 @@ V = I_S==3;
 disp('cleaning segmentation ...');
 LL = medfilt2(L,[11 11]);
 LLL = imclose(LL,strel('disk',3));
-LLLL = imopen(LLL,strel('disk',6));
+LLLL = imopen(LLL,strel('disk',5));
 LLLLL = imfill(LLLL,'holes');
 LLLLLL = bwareaopen(LLLLL, 1000);
 % figure,imshow(L,[]);
@@ -85,8 +90,8 @@ LLLLLL = bwareaopen(LLLLL, 1000);
 % figure,imshow(LLLLLL,[]);
 
 HH = medfilt2(H,[11 11]);
-HHH = imclose(HH,strel('disk',13));
-HHHH = imopen(HHH,strel('disk',5));
+HHH = imclose(HH,strel('disk',11));
+HHHH = imopen(HHH,strel('disk',4));
 HHHHH = imfill(HHHH,'holes');
 HHHHHH = bwareaopen(HHHHH, 2500);
 % figure,imshow(H,[]);
@@ -97,8 +102,8 @@ HHHHHH = bwareaopen(HHHHH, 2500);
 % figure,imshow(HHHHHH,[]);
 
 VV = medfilt2(V,[11 11]);
-VVV = imclose(VV,strel('disk',13));
-VVVV = imopen(VVV,strel('disk',5));
+VVV = imclose(VV,strel('disk',11));
+VVVV = imopen(VVV,strel('disk',4));
 VVVVV = imfill(VVVV,'holes');
 VVVVVV = bwareaopen(VVVVV, 2500);
 % figure,imshow(V,[]);

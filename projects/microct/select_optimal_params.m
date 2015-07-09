@@ -54,15 +54,17 @@ function select_optimal_params_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for select_optimal_params
 handles.output = hObject;
-handles.params = varargin(1);
-handles.pms = varargin(2);
+handles.params = varargin{1};
+handles.pms = varargin{2};
 handles.class_pms = update_class_pms(handles);
+update_sliders(handles);
+update_text(handles);
+update_images(handles);
 
 % Update handles structure
 guidata(hObject, handles);
 
 % UIWAIT makes select_optimal_params wait for user response (see UIRESUME)
-% uiwait(handles.figure1);
 
 
 % --- Outputs from this function are returned to the command line.
@@ -79,6 +81,8 @@ varargout{1} = handles.output;
 function class_pms = update_class_pms(handles)
 params = handles.params;
 pms = handles.pms;
+n_features = size(pms,3);
+n_classes = size(pms,4);
 class_pms = zeros(size(pms,1),size(pms,2),n_classes);
 for nc=1:n_classes
     for nf=1:n_features
@@ -87,9 +91,47 @@ for nc=1:n_classes
 end
 
 function [] = update_sliders(handles)
+set(handles.slider1,  'value', handles.params(1,1));
+set(handles.slider2,  'value', handles.params(1,2));
+set(handles.slider3,  'value', handles.params(1,3));
+set(handles.slider4,  'value', handles.params(2,1));
+set(handles.slider5,  'value', handles.params(2,2));
+set(handles.slider6,  'value', handles.params(2,3));
+set(handles.slider7,  'value', handles.params(3,1));
+set(handles.slider8,  'value', handles.params(3,2));
+set(handles.slider9,  'value', handles.params(3,3));
+set(handles.slider10, 'value', handles.params(4,1));
+set(handles.slider11, 'value', handles.params(4,2));
+set(handles.slider12, 'value', handles.params(4,3));
+set(handles.slider13, 'value', handles.params(5,1));
+set(handles.slider14, 'value', handles.params(5,2));
+set(handles.slider15, 'value', handles.params(5,3));
+
+function [] = update_text(handles)
+set(handles.text27, 'string', handles.params(1,1));
+set(handles.text28, 'string', handles.params(1,2));
+set(handles.text29, 'string', handles.params(1,3));
+set(handles.text30, 'string', handles.params(2,1));
+set(handles.text31, 'string', handles.params(2,2));
+set(handles.text32, 'string', handles.params(2,3));
+set(handles.text33, 'string', handles.params(3,1));
+set(handles.text34, 'string', handles.params(3,2));
+set(handles.text35, 'string', handles.params(3,3));
+set(handles.text36, 'string', handles.params(4,1));
+set(handles.text37, 'string', handles.params(4,2));
+set(handles.text38, 'string', handles.params(4,3));
+set(handles.text39, 'string', handles.params(5,1));
+set(handles.text40, 'string', handles.params(5,2));
+set(handles.text41, 'string', handles.params(5,3));
 
 
 function [] = update_images(handles)
+axes(handles.axes1);
+imshow(handles.class_pms(:,:,1),[]);
+axes(handles.axes2);
+imshow(handles.class_pms(:,:,2),[]);
+axes(handles.axes3);
+imshow(handles.class_pms(:,:,3),[]);
 
 
 
@@ -106,11 +148,12 @@ col = 1;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -139,11 +182,12 @@ col = 2;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -172,11 +216,12 @@ col = 3;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -202,15 +247,16 @@ function slider4_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 row = 2; 
-col = 3;
+col = 1;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -240,11 +286,12 @@ col = 2;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -274,11 +321,12 @@ col = 3;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -308,11 +356,12 @@ col = 1;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -342,11 +391,12 @@ col = 2;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -376,11 +426,12 @@ col = 3;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -410,11 +461,12 @@ col = 1;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -444,11 +496,12 @@ col = 2;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -478,11 +531,12 @@ col = 3;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -512,11 +566,12 @@ col = 1;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -546,11 +601,12 @@ col = 2;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -580,11 +636,12 @@ col = 3;
 params = handles.params;
 param = get(hObject,'Value');
 param_prev = params(row,col);
-params(row,:) = params(row,:)/((1-param_prev)/(1-param));
+params(:,col) = max(min(params(:,col)/((1-param_prev)/(1-param)),1),0);
 params(row,col) = param;
 handles.params = params;
+handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
-handles.class_pms = update_class_pms();
+update_text(handles);
 update_images(handles);
 guidata(hObject, handles);
 
@@ -606,3 +663,6 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+good_params = handles.params;
+save('temp.mat','good_params');
+close(gcf);
