@@ -1,0 +1,36 @@
+
+
+blur_kernel = 0;
+
+N = 75;
+i = 50;
+mean_patches = zeros(801,801,N)
+% for i=1:N
+
+% read image
+img = read_img(i);
+
+% convert to black-white image
+bw = thresh_and_clean(img);
+
+% get patches corresponding to crosses
+patches = get_patches(img,bw);
+if i==1
+    ref_patch = patches(:,:,3);
+end
+
+% register patches
+reg_patches = register_patches(patches,ref_patch);
+crop = 100;
+reg_patches_cropped = reg_patches(crop+1:end-crop,crop+1:end-crop,:);
+
+% select similar patches
+selected_patches = select_patches(reg_patches_cropped,ref_patch(crop+1:end-crop,crop+1:end-crop));
+
+% average out patches
+mean_patch = sum(selected_patches,3)/size(selected_patches,3);
+
+figure,imshow(mean_patch,[]);
+
+% end
+
