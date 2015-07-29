@@ -1,4 +1,4 @@
-function [SegLabel,NcutDiscrete,NcutEigenvectors,NcutEigenvalues,W,imageEdges]= NcutImage(I,nbSegments);
+function labels = fNCUT(I,nbSegments)
 %  [SegLabel,NcutDiscrete,NcutEigenvectors,NcutEigenvalues,W,imageEdges]= NcutImage(I);
 %  Input: I = brightness image
 %         nbSegments = number of segmentation desired
@@ -13,14 +13,14 @@ if nargin <2,
    nbSegments = 10;
 end
 
-[W,imageEdges] = ICgraph(I);
+[W,~] = ICgraph(I);
 
-[NcutDiscrete,NcutEigenvectors,NcutEigenvalues] = ncutW(W,nbSegments);
+[NcutDiscrete,~,~] = ncutW(W,nbSegments);
 
 %% generate segmentation label map
-[nr,nc,nb] = size(I);
+[nr,nc,~] = size(I);
 
-SegLabel = zeros(nr,nc);
-for j=1:size(NcutDiscrete,2),
-    SegLabel = SegLabel + j*reshape(NcutDiscrete(:,j),nr,nc);
+labels = zeros(nr,nc);
+for j=1:size(NcutDiscrete,2)
+    labels = labels + j*reshape(NcutDiscrete(:,j),nr,nc);
 end
