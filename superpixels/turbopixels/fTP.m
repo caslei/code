@@ -1,4 +1,8 @@
+
+% Turbopixel algorithm implementation
 function boundary = fTP(img,numSuperpixels,timeStep,maxIterations)
+
+    img = (img-min(img(:)))/(max(img(:))-min(img(:)));
 
     if nargin < 3
         timeStep = 0.5;

@@ -1,3 +1,4 @@
+%% Demo for the Turbopixel algorithm
 
 clear all;
 close all;
@@ -13,24 +14,13 @@ if N<0
     N = floor(size(img,1)*size(img,2)/S);
 end
 
+%% TP algorithm
 tic
-boundary = fTP(img, N);
-noise_label_edges = double(boundary);
-noise_label_edges_inv_logical = logical(1-noise_label_edges);
-noise_label_edges_labeled = bwlabel(noise_label_edges_inv_logical,4);
-se = strel('disk',2);
-SegLabel = imdilate(noise_label_edges_labeled,se);
+boundary = fTP(img,N,0.5,500);
+toc
+labels = edges2labels(boundary);
+labeled = fill_segments(img,labels);
 
-labeled = zeros(size(SegLabel));
-for j=min(SegLabel(:)):max(SegLabel(:))
-    avg_pixels = mean2(I(SegLabel==j));
-    labeled(SegLabel==j) = avg_pixels;
-end
-figure;
-imshow(labeled,[0,255]);
-disp(['The computation took ' num2str(toc) ' seconds on the ' num2str(size(I,1)) 'x' num2str(size(I,2)) ' image']);
-
-figure;clf
-bw = edge(SegLabel,0.01);
-J1=showmask(I(:,:,1),imdilate(bw,ones(2,2))); imshow(J1,[0,255]);axis off
-disp('This is the segmentation.');
+%% Show superpixel segmentation
+figure,imshow(mask(img,boundary),[0,255]);
+figure,imshow(labeled,[0,255]);

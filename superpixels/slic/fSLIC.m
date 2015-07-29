@@ -1,12 +1,14 @@
 % SLIC Simple Linear Iterative Clustering SuperPixels
 
-function [l, C, d] = slic(im, k, m)
-    
-    nItr = 10;
+function labels = fSLIC(img,k,m,nItr)
 
-    [rows, cols, chan] = size(im);
+    [rows, cols, chan] = size(img);
     if chan ~= 3
-        error('Image must be colour');
+        im = img;
+        img = zeros(size(im,1),size(im,2),3);
+        img(:,:,1) = im;
+        img(:,:,2) = im;
+        img(:,:,3) = im;
     end
     
     % Convert image to L*a*b* colourspace.  This gives us a colourspace that is
@@ -14,7 +16,7 @@ function [l, C, d] = slic(im, k, m)
     % distance between colour coordinates to measure differences between
     % colours.  Note the image becomes double after conversion.  We may want to
     % go to signed shorts to save memory.
-    im = rgb2lab(im/255); 
+    img = rgb2lab(img/255); 
     
     % Nominal spacing between grid elements assuming hexagonal grid
     S = sqrt(rows*cols / (k * sqrt(3)/2));
@@ -35,7 +37,7 @@ function [l, C, d] = slic(im, k, m)
     % Allocate memory and initialise clusters, labels and distances.
     C = zeros(6,k);          % Cluster centre data  1:3 is mean Lab value,
                              % 4:5 is row, col of centre, 6 is No of pixels
-    l = -ones(rows, cols);   % Pixel labels.
+    labels = -ones(rows, cols);   % Pixel labels.
     d = inf(rows, cols);     % Pixel distances from cluster centres.
     
     % Initialise clusters on a hexagonal grid
@@ -50,7 +52,7 @@ function [l, C, d] = slic(im, k, m)
         
         for ci = 1:nodeCols
             cc = round(c); rr = round(r);
-            C(1:5, kk) = [squeeze(im(rr,cc,:)); cc; rr];
+            C(1:5, kk) = [squeeze(img(rr,cc,:)); cc; rr];
             c = c+S;
             kk = kk+1;
         end
@@ -68,7 +70,7 @@ function [l, C, d] = slic(im, k, m)
            % Get subimage around cluster
            rmin = max(C(5,kk)-S, 1);   rmax = min(C(5,kk)+S, rows); 
            cmin = max(C(4,kk)-S, 1);   cmax = min(C(4,kk)+S, cols); 
-           subim = im(rmin:rmax, cmin:cmax, :);  
+           subim = img(rmin:rmax, cmin:cmax, :);  
            assert(numel(subim) > 0)
            
            % Compute distances D between C(:,kk) and subimage
@@ -77,21 +79,21 @@ function [l, C, d] = slic(im, k, m)
            % If any pixel distance from the cluster centre is less than its
            % previous value update its distance and label
            subd =  d(rmin:rmax, cmin:cmax);
-           subl =  l(rmin:rmax, cmin:cmax);
+           subl =  labels(rmin:rmax, cmin:cmax);
            updateMask = D < subd;
            subd(updateMask) = D(updateMask);
            subl(updateMask) = kk;
            
            d(rmin:rmax, cmin:cmax) = subd;
-           l(rmin:rmax, cmin:cmax) = subl;           
+           labels(rmin:rmax, cmin:cmax) = subl;           
        end
        
        % Update cluster centres with mean values
        C(:) = 0;
        for r = 1:rows
            for c = 1:cols
-              tmp = [im(r,c,1); im(r,c,2); im(r,c,3); c; r; 1];
-              C(:, l(r,c)) = C(:, l(r,c)) + tmp;
+              tmp = [img(r,c,1); img(r,c,2); img(r,c,3); c; r; 1];
+              C(:, labels(r,c)) = C(:, labels(r,c)) + tmp;
            end
        end
        
