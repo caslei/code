@@ -1,3 +1,5 @@
+% Normalized cuts superpixel algorithm
+
 function labels = fNCUT(I,nbSegments)
 %  [SegLabel,NcutDiscrete,NcutEigenvectors,NcutEigenvalues,W,imageEdges]= NcutImage(I);
 %  Input: I = brightness image

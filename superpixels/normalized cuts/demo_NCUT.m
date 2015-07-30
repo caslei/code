@@ -6,7 +6,7 @@ close all;
 %% Read image
 img = double(imread('lena.tif'));
 
-%% SLIC parameters
+%% NCUT parameters
 N = -1; % the number of superpixels, set this negative if you want 
           % to define this in terms of superpixel size
 S = 256;  % superpixel size (if N is negative)
@@ -16,7 +16,7 @@ end
 compactness = 20; % compactness parameter
 n_iter = 10;      % number of iterations 
 
-%% SLIC algorithm
+%% NCUT algorithm
 tic
 labels = fNCUT(img,N);
 toc

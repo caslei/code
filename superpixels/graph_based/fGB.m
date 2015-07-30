@@ -1,6 +1,6 @@
-% SLIC Simple Linear Iterative Clustering SuperPixels
+% Graph based superpixel algorithm
 
-function labels = graph_based(im, sigma, k, min)
+function labels = fGB(im, sigma, k, min)
 
     if (nargin < 2)
         sigma = 0.5;
