@@ -1,17 +1,18 @@
+%% Adds a red mask on top of the image
+function masked_img = mask(img,mask)
 
-% Draws a mask M on an image V
-function RGB = mask(V,M)
+if size(img,3)==3
+    masked_img = img;
+else
+    masked_img = zeros(size(img,1),size(img,2),3);
+    masked_img(:,:,1) = img;
+    masked_img(:,:,2) = img;
+    masked_img(:,:,3) = img;
+end
 
-V=V-min(V(:));
-V=V/max(V(:));
-V=.25+0.75*V;
-
-M=M-min(M(:));
-M=M/max(M(:));
-
-H=0.0+zeros(size(V));
-S=M;
-
-RGB = hsv2rgb(H,S,V);
+mask = min(double(mask)*255,255);
+masked_img(:,:,1) = min(masked_img(:,:,1)+mask,255);
+masked_img(:,:,2) = max(masked_img(:,:,2)-mask,0);
+masked_img(:,:,3) = max(masked_img(:,:,3)-mask,0);
 
 end

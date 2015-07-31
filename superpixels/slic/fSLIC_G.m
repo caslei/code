@@ -1,14 +1,12 @@
-% SLIC Simple Linear Iterative Clustering SuperPixels
+% SLIC algorithm for grayscale images
+% The distance function uses a simple Euclidean distance between
+% intensities instead of LAB values
 
-function labels = fSLIC(img,k,m,nItr)
+function labels = fSLIC_G(img,k,m,nItr)
 
     [rows, cols, chan] = size(img);
-    if chan ~= 3
-        im = img;
-        img = zeros(size(im,1),size(im,2),3);
-        img(:,:,1) = im;
-        img(:,:,2) = im;
-        img(:,:,3) = im;
+    if chan ~= 1
+        error(['Error: required [MxN] image, input was of size [' num2str(size(img)) ']']);
     end
     
     % Convert image to L*a*b* colourspace.  This gives us a colourspace that is
@@ -16,7 +14,7 @@ function labels = fSLIC(img,k,m,nItr)
     % distance between colour coordinates to measure differences between
     % colours.  Note the image becomes double after conversion.  We may want to
     % go to signed shorts to save memory.
-    img = rgb2lab(img/255); 
+    % img = rgb2lab(img/255); 
     
     % Nominal spacing between grid elements assuming hexagonal grid
     S = sqrt(rows*cols / (k * sqrt(3)/2));
@@ -35,8 +33,8 @@ function labels = fSLIC(img,k,m,nItr)
     k = nodeRows * nodeCols;
     
     % Allocate memory and initialise clusters, labels and distances.
-    C = zeros(6,k);          % Cluster centre data  1:3 is mean Lab value,
-                             % 4:5 is row, col of centre, 6 is No of pixels
+    C = zeros(4,k);          % Cluster centre data  1 is mean intensity value,
+                             % 2:3 is row, col of centre, 4 is No of pixels
     labels = -ones(rows, cols);   % Pixel labels.
     d = inf(rows, cols);     % Pixel distances from cluster centres.
     
@@ -52,7 +50,7 @@ function labels = fSLIC(img,k,m,nItr)
         
         for ci = 1:nodeCols
             cc = round(c); rr = round(r);
-            C(1:5, kk) = [squeeze(img(rr,cc,:)); cc; rr];
+            C(1:3, kk) = [squeeze(img(rr,cc)); cc; rr];
             c = c+S;
             kk = kk+1;
         end
@@ -68,8 +66,8 @@ function labels = fSLIC(img,k,m,nItr)
        for kk = 1:k  % for each cluster
 
            % Get subimage around cluster
-           rmin = max(C(5,kk)-S, 1);   rmax = min(C(5,kk)+S, rows); 
-           cmin = max(C(4,kk)-S, 1);   cmax = min(C(4,kk)+S, cols); 
+           rmin = max(C(3,kk)-S, 1);   rmax = min(C(3,kk)+S, rows); 
+           cmin = max(C(2,kk)-S, 1);   cmax = min(C(2,kk)+S, cols); 
            subim = img(rmin:rmax, cmin:cmax, :);  
            assert(numel(subim) > 0)
            
@@ -92,14 +90,14 @@ function labels = fSLIC(img,k,m,nItr)
        C(:) = 0;
        for r = 1:rows
            for c = 1:cols
-              tmp = [img(r,c,1); img(r,c,2); img(r,c,3); c; r; 1];
+              tmp = [img(r,c); c; r; 1];
               C(:, labels(r,c)) = C(:, labels(r,c)) + tmp;
            end
        end
        
        % Divide by number of pixels in each superpixel to get mean values
        for kk = 1:k 
-           C(1:5,kk) = round(C(1:5,kk)/C(6,kk)); 
+           C(1:3,kk) = round(C(1:3,kk)/C(4,kk)); 
        end
        
        % Note the residual error, E, is not calculated because we are using a
@@ -113,18 +111,15 @@ function D = dist(C, im, r1, c1, S, m)
     % Squared spatial distance
     %    ds is a fixed 'image' we should be able to exploit this
     %    and use a fixed meshgrid for much of the time somehow...
-    [rows, cols, chan] = size(im);
+    [rows, cols] = size(im);
     [x,y] = meshgrid(c1:(c1+cols-1), r1:(r1+rows-1));
-    x = x-C(4);  % x and y dist from cluster centre
-    y = y-C(5);
+    x = x-C(2);  % x and y dist from cluster centre
+    y = y-C(3);
     ds2 = x.^2 + y.^2;
     
-    % Squared colour difference
-    for n = 1:3
-        im(:,:,n) = (im(:,:,n)-C(n)).^2;
-    end
-    dc2 = sum(im,3);
+    % Squared intensity difference
+    dc2 = (im-C(1)).^2;
     
-    D = sqrt(dc2 + ds2/S^2*m^2);
+    D = sqrt(dc2 + m^2*(ds2/S^2));
     
 end
