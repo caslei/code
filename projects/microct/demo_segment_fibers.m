@@ -58,7 +58,8 @@ for n_slice=1:size(img_3D,1)
 end
                                   
 % save results
-save('L_3D.mat','L_3D');
-save('H_3D.mat','H_3D');
-save('V_3D.mat','V_3D');
-save('F_3D.mat','F_3D');
+for i=1:size(F_3D,1)
+    F_3D_i = squeeze(F_3D(i,:,:));
+    save(['/net/ipi/scratch/jbroels/microct/segmentation results/F_3D_' num2str(i) '.mat'],'F_3D_i');
+    disp(num2str(i/size(F_3D,1)));
+end
