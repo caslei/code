@@ -22,5 +22,5 @@ labels = edges2labels(boundary);
 labeled = fill_segments(img,labels);
 
 %% Show superpixel segmentation
-figure,imshow(mask(img,boundary),[0,255]);
-figure,imshow(labeled,[0,255]);
+figure,imshow(uint8(mask(img,boundary)),[0,255]);
+figure,imshow(uint8(labeled),[0,255]);

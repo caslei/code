@@ -23,6 +23,6 @@ end
 [nr,nc,~] = size(I);
 
 labels = zeros(nr,nc);
-for j=1:size(NcutDiscrete,2)
+for j=1:size(NcutDiscrete,2),
     labels = labels + j*reshape(NcutDiscrete(:,j),nr,nc);
 end
