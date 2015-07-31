@@ -22,7 +22,7 @@ function varargout = select_optimal_params(varargin)
 
 % Edit the above text to modify the response to help select_optimal_params
 
-% Last Modified by GUIDE v2.5 08-Jul-2015 15:58:39
+% Last Modified by GUIDE v2.5 31-Jul-2015 09:39:17
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -56,6 +56,8 @@ function select_optimal_params_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.output = hObject;
 handles.params = varargin{1};
 handles.pms = varargin{2};
+handles.bg = varargin{3};
+handles.img = varargin{4};
 handles.class_pms = update_class_pms(handles);
 update_sliders(handles);
 update_text(handles);
@@ -666,3 +668,18 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 good_params = handles.params;
 save('temp.mat','good_params');
 close(gcf);
+
+
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+[L_S,H_S,V_S,F_S] = extract_segmentation(handles.params,handles.pms,handles.bg);
+axes(handles.axes4);
+imshow(uint16(drawmask(handles.img,L_S)));
+axes(handles.axes5);
+imshow(uint16(drawmask(handles.img,H_S)));
+axes(handles.axes6);
+imshow(uint16(drawmask(handles.img,V_S)));
+figure,imshow(uint16(drawmask(handles.img,F_S)));

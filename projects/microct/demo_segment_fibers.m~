@@ -48,13 +48,19 @@ params = good_params;
 clear good_params;
 
 % segment slices for fibers 
+L_3D = zeros(size(img_3D));
+H_3D = zeros(size(img_3D));
+V_3D = zeros(size(img_3D));
 F_3D = zeros(size(img_3D));
-for n_slice=1:size(img_3D,1)
+for n_slice=1:size(img_3D,3)
     imgt_features = compute_features(squeeze(img_3D(n_slice,:,:)),n_features,filter_l,filter_h,filter_v);
     pms = compute_pms(imgt_features, ksd_xs, ksd_fs);
-    [~,~,~,F_S] = extract_segmentation(params,pms,bg);
+    [L_S,H_S,V_S,F_S] = extract_segmentation(params,pms,bg);
+    L_3D(n_slice,:,:) = L_S;
+    H_3D(n_slice,:,:) = H_S;
+    V_3D(n_slice,:,:) = V_S;
     F_3D(n_slice,:,:) = F_S;
-    disp(num2str(n_slice/size(img_3D,1)));
+    n_slice/size(img_3D,3)
 end
                                   
 % save results
